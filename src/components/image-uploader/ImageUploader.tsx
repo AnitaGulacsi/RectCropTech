@@ -8,7 +8,6 @@ interface ImageUploaderProps {
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   setImageDataUrl,
 }) => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
@@ -36,7 +35,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   const processFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = () => {
-      setImageSrc(reader.result as string);
       setImageDataUrl(reader.result as string);
     };
     reader.onerror = (error) => console.error("Error reading file:", error);
@@ -61,15 +59,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           onChange={onChange}
         />
       </div>
-      {imageSrc && (
-        <Image
-          width={500}
-          height={500}
-          src={imageSrc}
-          alt="Uploaded"
-          className="max-w-full"
-        />
-      )}
     </div>
   );
 };
