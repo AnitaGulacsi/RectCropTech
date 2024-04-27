@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Container, Sprite, Application, Assets } from "pixi.js";
+import { Container, Sprite, Application, Assets, Graphics, Rectangle } from "pixi.js";
 
 interface PixiCanvasProps {
   imageSrc: string;
@@ -30,8 +30,43 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       myImage.width = 700;
       myImage.height = 700;
 
+      let drawing = false;
+      let start = { x: 0, y: 0 };
+      const rectangle = new Graphics();
+      app.stage.addChild(rectangle);
+
+      app.stage.interactive = true;
+      app.stage.on("pointerdown", function (event) {
+        drawing = true;
+        start = event.getLocalPosition(app.stage);
+        rectangle.stroke({ width: 2, color: "red" });
+        rectangle.fill("transparent");
+        rectangle.rect(start.x, start.y, 1, 1);
+      });
+
+      app.stage.on("pointermove", function (event) {
+        if (drawing) {
+          const current = event.getLocalPosition(app.stage);
+          const width = current.x - start.x;
+          const height = current.y - start.y;
+          rectangle.clear();
+          rectangle.stroke({ width: 2, color: "red" });
+          rectangle.fill("transparent");
+          rectangle.rect(start.x, start.y, width, height);
+        }
+      });
+
+      app.stage.on("pointerup", function (event) {
+        const end = event.getLocalPosition(app.stage);
+        const width = Math.abs(end.x - start.x);
+        const height = Math.abs(end.y - start.y);
+
+        const rect = new Rectangle(start.x, start.y, width, height);
+      });
+
       return () => {
         container.removeChild(myImage);
+        app.destroy(true);
       };
     })();
   }, [imageSrc]);

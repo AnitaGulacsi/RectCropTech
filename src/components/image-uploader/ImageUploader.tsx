@@ -52,12 +52,12 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         onDragLeave={onDragLeave}
       >
         Drag and drop an image here, or click to select a file.
-        <input
+        {/* <input
           type="file"
           accept="image/*"
           className="opacity-0 w-full h-full absolute top-0 left-0 cursor-pointer"
           onChange={onChange}
-        />
+        /> */}
       </div>
     </div>
   );
