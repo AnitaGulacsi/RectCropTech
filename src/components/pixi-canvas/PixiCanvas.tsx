@@ -1,5 +1,13 @@
 import { useEffect, useRef } from "react";
-import { Container, Sprite, Application, Assets, Graphics, Rectangle } from "pixi.js";
+import {
+  Container,
+  Sprite,
+  Application,
+  Assets,
+  Graphics,
+  Rectangle,
+  Texture,
+} from "pixi.js";
 
 interface PixiCanvasProps {
   imageSrc: string;
@@ -57,11 +65,43 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       });
 
       app.stage.on("pointerup", function (event) {
-        const end = event.getLocalPosition(app.stage);
-        const width = Math.abs(end.x - start.x);
-        const height = Math.abs(end.y - start.y);
+        drawing = false;
+        const bounds = rectangle.getBounds();
 
-        const rect = new Rectangle(start.x, start.y, width, height);
+        if (app.renderer) {
+          // Create a new canvas element
+          const canvas = document.createElement("canvas");
+          canvas.width = bounds.width;
+          canvas.height = bounds.height;
+
+          // Get the context of the canvas and draw the cropped area
+          const context = canvas.getContext("2d");
+          if (context) {
+            const rendererCanvas = app.renderer.extract.canvas(
+              app.stage
+            ) as HTMLCanvasElement;
+            context.drawImage(
+              rendererCanvas,
+              bounds.x,
+              bounds.y,
+              bounds.width,
+              bounds.height,
+              0,
+              0,
+              bounds.width,
+              bounds.height
+            );
+
+            // Create a texture from the canvas
+            const texture = Texture.from(canvas);
+            const croppedImage = new Sprite(texture);
+            container.addChild(croppedImage);
+
+            // Optionally hide the original image and rectangle
+            myImage.visible = false;
+            rectangle.visible = false;
+          }
+        }
       });
 
       return () => {
