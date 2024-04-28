@@ -135,6 +135,7 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       link.download = "cropped-image.png";
       link.href = downloadUrl;
       link.click();
+      setDownloadUrl(null);
     }
   };
 
