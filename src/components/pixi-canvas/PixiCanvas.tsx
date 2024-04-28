@@ -22,6 +22,7 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       // Remove old application if it exists
       if (appRef.current) {
         appRef.current.destroy(true);
+        setDownloadUrl(null);
       }
 
       // Create a new application
@@ -135,7 +136,6 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       link.download = "cropped-image.png";
       link.href = downloadUrl;
       link.click();
-      setDownloadUrl(null);
     }
   };
 
