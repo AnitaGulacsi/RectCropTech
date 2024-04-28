@@ -22,7 +22,7 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
 
       // Initialize the application
       await app.init({
-        background: "#fff",
+        background: "#D3D3D3",
         resizeTo: window,
       });
 
@@ -40,10 +40,6 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       myImage.width = 700;
       myImage.height = 700;
 
-      // Center the image
-      myImage.x = (app.screen.width - myImage.width) / 2;
-      myImage.y = (app.screen.height - myImage.height) / 2;
-
       let drawing = false;
       let start = { x: 0, y: 0 };
       const rectangle = new Graphics();
@@ -53,9 +49,15 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       app.stage.on("pointerdown", function (event) {
         drawing = true;
         start = event.getLocalPosition(app.stage);
+        const current = event.getLocalPosition(container);
         rectangle.stroke({ width: 2, color: "red" });
         rectangle.fill("transparent");
-        rectangle.rect(start.x, start.y, 1, 1);
+        rectangle.rect(
+          start.x,
+          start.y,
+          current.x - start.x,
+          current.y - start.y
+        );
       });
 
       app.stage.on("pointermove", function (event) {
@@ -70,7 +72,7 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
         }
       });
 
-      app.stage.on("pointerup", function (event) {
+      app.stage.on("pointerup", function () {
         drawing = false;
         const bounds = rectangle.getBounds();
         console.log("Bounds", bounds);
@@ -102,7 +104,6 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
           const texture = Texture.from(canvas);
           const croppedImage = new Sprite(texture);
           croppedImage.x = (app.screen.width - croppedImage.width) / 2;
-          croppedImage.y = (app.screen.height - croppedImage.height) / 2;
           container.addChild(croppedImage);
 
           myImage.visible = false;
