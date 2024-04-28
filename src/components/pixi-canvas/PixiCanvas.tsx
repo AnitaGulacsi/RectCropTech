@@ -21,7 +21,10 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       const app = new Application();
 
       // Initialize the application
-      await app.init({ background: "#1099bb", resizeTo: window });
+      await app.init({
+        background: "#fff",
+        resizeTo: window,
+      });
 
       // Append the application canvas to the document body
       document.body.appendChild(app.canvas);
@@ -36,6 +39,10 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
 
       myImage.width = 700;
       myImage.height = 700;
+
+      // Center the image
+      myImage.x = (app.screen.width - myImage.width) / 2;
+      myImage.y = (app.screen.height - myImage.height) / 2;
 
       let drawing = false;
       let start = { x: 0, y: 0 };
@@ -94,6 +101,8 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
           // Create a texture from the canvas
           const texture = Texture.from(canvas);
           const croppedImage = new Sprite(texture);
+          croppedImage.x = (app.screen.width - croppedImage.width) / 2;
+          croppedImage.y = (app.screen.height - croppedImage.height) / 2;
           container.addChild(croppedImage);
 
           myImage.visible = false;
