@@ -14,9 +14,16 @@ interface PixiCanvasProps {
 
 export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
   const pixiContainer = useRef<HTMLDivElement>(null);
+  const appRef = useRef<Application | null>(null);
 
   useEffect(() => {
     (async () => {
+      // Remove old application if it exists
+      if (appRef.current) {
+        appRef.current.destroy(true);
+        // pixiContainer.current?.removeChild(appRef.current.canvas);
+      }
+
       // Create a new application
       const app = new Application();
 
@@ -25,9 +32,12 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
         background: "#D3D3D3",
         resizeTo: window,
       });
+      appRef.current = app;
 
-      // Append the application canvas to the document body
-      document.body.appendChild(app.canvas);
+      // Append the application canvas to the specified container
+      if (pixiContainer.current) {
+        pixiContainer.current.appendChild(app.canvas);
+      }
 
       // Create and add a container to the stage
       const container = new Container();
