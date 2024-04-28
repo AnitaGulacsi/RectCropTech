@@ -29,7 +29,7 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
 
       // Initialize the application
       await app.init({
-        background: "#D3D3D3",
+        background: "#E0F2F1",
         resizeTo: window,
       });
       appRef.current = app;

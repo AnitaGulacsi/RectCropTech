@@ -26,7 +26,7 @@ export default function Home() {
         )}
         {showCanvas && imageDataUrl && (
           <div>
-            <p>
+            <p className="mb-3">
               Select the desired area on the image! Draw a rectangle for
               cropping:
             </p>
