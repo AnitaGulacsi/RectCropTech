@@ -1,21 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Container,
-  Sprite,
-  Application,
-  Assets,
-  Graphics,
-  Texture,
-} from "pixi.js";
 import { usePixiCanvas } from "./usePixiCanvas";
+import { useFileDownloader } from "./useFileDownloader";
 
 interface PixiCanvasProps {
   imageSrc: string;
 }
 
 export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
-  const { handleDownload, downloadUrl, pixiContainer } =
-    usePixiCanvas(imageSrc);
+  const { downloadUrl, pixiContainer } = usePixiCanvas(imageSrc);
+
+  const { handleDownload } = useFileDownloader(downloadUrl ?? "");
 
   return (
     <div>

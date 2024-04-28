@@ -126,14 +126,5 @@ export const usePixiCanvas = (imageSrc: string) => {
     })();
   }, [imageSrc]);
 
-  const handleDownload = () => {
-    if (downloadUrl) {
-      const link = document.createElement("a");
-      link.download = "cropped-image.png";
-      link.href = downloadUrl;
-      link.click();
-    }
-  };
-
-  return { handleDownload, downloadUrl, pixiContainer };
+  return { downloadUrl, pixiContainer };
 };
