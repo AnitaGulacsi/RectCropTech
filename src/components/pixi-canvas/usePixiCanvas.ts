@@ -12,6 +12,7 @@ export const usePixiCanvas = (imageSrc: string) => {
   const pixiContainer = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const baseImageSize = 800;
 
   useEffect(() => {
     (async () => {
@@ -44,8 +45,13 @@ export const usePixiCanvas = (imageSrc: string) => {
       const uploadImage = new Sprite(texture);
       container.addChild(uploadImage);
 
-      uploadImage.width = 700;
-      uploadImage.height = 700;
+      if (
+        uploadImage.width > baseImageSize &&
+        uploadImage.height > baseImageSize
+      ) {
+        uploadImage.width = baseImageSize;
+        uploadImage.height = baseImageSize;
+      }
 
       let drawing = false;
       let start = { x: 0, y: 0 };
