@@ -47,15 +47,15 @@ export const ImageProcessor: React.FC<ImageProcessorProps> = ({
   }, [imageDataUrl]);
 
   return (
-    <div>
+    <div className="m-5">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div className="flex flex-row">
-          {labels.map((label, index) => (
-            <button className="border p-3 m-5" key={index}>
-              {label}
-            </button>
+          {labels.map((item, index) => (
+            <div className="border p-3 m-5" key={index}>
+              <p className="text-teal-800">{item}</p>
+            </div>
           ))}
         </div>
       )}
