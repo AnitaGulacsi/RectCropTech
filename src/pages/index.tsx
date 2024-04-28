@@ -15,12 +15,12 @@ export default function Home() {
       <div className="flex justify-center m-10">
         <h1 className="text-blue-800">RECT-CROP-TECH APP</h1>
       </div>
-      <p className="m-4">The app will show you what`s in the picture!</p>
+      <p className="m-4">The app will show you what is on the picture!</p>
       <ImageUploader setImageDataUrl={handleImageData} />
       <div>
         {imageDataUrl && (
           <div className="flex flex-col">
-            <p className="m-3">Objects found in the picture:</p>
+            <p className="m-3">Objects found on the picture:</p>
             <ImageProcessor imageDataUrl={imageDataUrl} />
           </div>
         )}
