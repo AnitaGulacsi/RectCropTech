@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useState, useCallback, DragEvent, ChangeEvent, useRef } from "react";
 
 interface ImageUploaderProps {

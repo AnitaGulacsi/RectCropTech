@@ -5,7 +5,6 @@ import {
   Application,
   Assets,
   Graphics,
-  Rectangle,
   Texture,
 } from "pixi.js";
 
@@ -97,7 +96,6 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
           const croppedImage = new Sprite(texture);
           container.addChild(croppedImage);
 
-          // Optionally hide the original image and rectangle
           myImage.visible = false;
           rectangle.visible = false;
         }
