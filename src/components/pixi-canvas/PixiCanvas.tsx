@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Container,
   Sprite,
@@ -15,13 +15,13 @@ interface PixiCanvasProps {
 export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
   const pixiContainer = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       // Remove old application if it exists
       if (appRef.current) {
         appRef.current.destroy(true);
-        // pixiContainer.current?.removeChild(appRef.current.canvas);
       }
 
       // Create a new application
@@ -85,15 +85,16 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       app.stage.on("pointerup", function () {
         drawing = false;
         const bounds = rectangle.getBounds();
-        console.log("Bounds", bounds);
 
         // Create a new canvas element
         const canvas = document.createElement("canvas");
+
         canvas.width = bounds.width;
         canvas.height = bounds.height;
 
         // Get the context of the canvas and draw the cropped area
         const context = canvas.getContext("2d");
+
         if (context) {
           const rendererCanvas = app.renderer.extract.canvas(
             app.stage
@@ -113,11 +114,11 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
           // Create a texture from the canvas
           const texture = Texture.from(canvas);
           const croppedImage = new Sprite(texture);
-          croppedImage.x = (app.screen.width - croppedImage.width) / 2;
           container.addChild(croppedImage);
-
           myImage.visible = false;
           rectangle.visible = false;
+
+          setDownloadUrl(canvas.toDataURL("image/png"));
         }
       });
 
@@ -128,5 +129,21 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
     })();
   }, [imageSrc]);
 
-  return <div ref={pixiContainer}></div>;
+  const handleDownload = () => {
+    if (downloadUrl) {
+      const link = document.createElement("a");
+      link.download = "cropped-image.png";
+      link.href = downloadUrl;
+      link.click();
+    }
+  };
+
+  return (
+    <div>
+      {downloadUrl && (
+        <button onClick={handleDownload}>Download Cropped Image</button>
+      )}
+      <div ref={pixiContainer}></div>
+    </div>
+  );
 };
