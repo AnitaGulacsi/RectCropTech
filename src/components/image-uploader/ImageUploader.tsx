@@ -25,6 +25,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     event.preventDefault();
     setIsDragOver(false);
     processFile(event.dataTransfer.files[0]);
+
   }, []);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
