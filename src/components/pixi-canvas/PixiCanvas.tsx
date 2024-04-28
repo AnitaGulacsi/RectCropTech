@@ -12,9 +12,17 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
 
   return (
     <div>
-      {downloadUrl && (
-        <button onClick={handleDownload}>Download Cropped Image</button>
-      )}
+      <button
+        className={`m-3 py-2 px-4 rounded text-white ${
+          downloadUrl
+            ? "bg-teal-500"
+            : "bg-teal-500 font-bold opacity-50 cursor-not-allowed"
+        } `}
+        onClick={handleDownload}
+      >
+        Download Cropped Image
+      </button>
+
       <div ref={pixiContainer}></div>
     </div>
   );
