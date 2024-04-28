@@ -1,51 +1,23 @@
 import Image from "next/image";
-import { useState, useCallback, DragEvent, ChangeEvent, useRef } from "react";
 import icon from "../../../public/images/icons-upload.png";
+import { useImageUploader } from "./useImageUploader";
 
-interface ImageUploaderProps {
+export interface ImageUploaderProps {
   setImageDataUrl: (url: string) => void;
 }
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   setImageDataUrl,
 }) => {
-  const [isDragOver, setIsDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(true);
-  }, []);
-
-  const onDragLeave = useCallback((event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(false);
-  }, []);
-
-  const onDrop = useCallback((event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragOver(false);
-    processFile(event.dataTransfer.files[0]);
-  }, []);
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      processFile(event.target.files[0]);
-    }
-  };
-
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const processFile = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImageDataUrl(reader.result as string);
-    };
-    reader.onerror = (error) => console.error("Error reading file:", error);
-    reader.readAsDataURL(file);
-  };
+  const {
+    isDragOver,
+    fileInputRef,
+    handleClick,
+    onDrop,
+    onDragOver,
+    onDragLeave,
+    onFileUploaded,
+  } = useImageUploader({ setImageDataUrl });
 
   return (
     <div
@@ -60,14 +32,14 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       onClick={handleClick}
     >
       <div>
-        <p> Drag and drop an image here, or click to select a file.</p>
+        <p>Drag and drop an image, or click to select a file.</p>
         <div className="relative w-64 h-12">
           <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
             className="opacity-0 w-full h-full absolute inset-0 cursor-pointer"
-            onChange={onChange}
+            onChange={onFileUploaded}
           />
         </div>
       </div>
