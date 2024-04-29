@@ -3,5 +3,5 @@ export const API_CONFIG = {
   ENDPOINTS: {
     VISION_API: "/v1/images:annotate",
   },
-  API_KEY: "AIzaSyB6Z6M76h7bs_4y_OvomhnFyEyNSGWfM8g",
+  API_KEY: process.env.API_KEY,
 };
