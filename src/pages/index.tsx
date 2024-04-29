@@ -15,22 +15,8 @@ export default function Home() {
       <div className="flex justify-center m-10">
         <h1 className="text-teal-800 text-xl">RECT-CROP-TECH APP</h1>
       </div>
-      <div className="flex flex-col sm:flex-row">
-        <p className="mr-10 content-center text-teal-700">
-          This app allows you to crop a specific part of an uploaded
-          image according to your preferences. Additionally, it features an
-          object recognition system that identifies and labels the objects found
-          within the image. Simply upload a photo, select the area you wish to
-          keep, and the app will handle the rest, giving you the cropped version
-          of your image. Meanwhile, the object recognition system provides
-          insights into what is depicted in the photo, enhancing your
-          interaction with the image.
-        </p>
-        <div className="flex flex-col">
-          <ImageUploader setImageDataUrl={handleImageData} />
-        </div>
-      </div>
-      <p>The app will show you what is on the picture!</p>
+      <p className="m-4">The app will show you what is on the picture!</p>
+      <ImageUploader setImageDataUrl={handleImageData} />
       <div>
         {imageDataUrl && (
           <div className="flex flex-col">
