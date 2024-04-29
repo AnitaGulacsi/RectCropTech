@@ -13,7 +13,11 @@ export const ImageProcessor: React.FC<ImageProcessorProps> = ({
   return (
     <div className="m-5">
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="m-2">
+          <div className="loader">
+            <p>Loading...</p>
+          </div>
+        </div>
       ) : (
         <div className="flex flex-row">
           {labels.map((item, index) => (
