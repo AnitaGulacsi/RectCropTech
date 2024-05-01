@@ -3,10 +3,12 @@ import { useFileDownloader } from "./useFileDownloader";
 
 interface PixiCanvasProps {
   imageSrc: string;
+  userText: string;
 }
 
 export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
-  const { downloadUrl, pixiContainer } = usePixiCanvas(imageSrc);
+  const { downloadUrl, pixiContainer, userText, handleTextChange } =
+    usePixiCanvas(imageSrc);
 
   const { handleDownload } = useFileDownloader(downloadUrl ?? "");
 
@@ -22,6 +24,16 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
       >
         Download Cropped Image
       </button>
+
+      <div>
+        <input
+          type="text"
+          value={userText}
+          onChange={handleTextChange}
+          placeholder="Enter text here"
+          className="m-3 py-2 px-4 rounded border"
+        />
+      </div>
 
       <div ref={pixiContainer}></div>
     </div>
