@@ -3,9 +3,15 @@ import { Button } from "../button/Button";
 
 interface modalProps {
   children: ReactNode;
+  handleCancelModal: () => void;
+  handleDoneModal: () => void;
 }
 
-export const Modal: React.FC<modalProps> = ({ children }) => {
+export const Modal: React.FC<modalProps> = ({
+  children,
+  handleCancelModal,
+  handleDoneModal,
+}) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
       <div className="bg-black bg-opacity-50 w-full h-full absolute"></div>
@@ -24,8 +30,12 @@ export const Modal: React.FC<modalProps> = ({ children }) => {
         </p>
         {children}
         <div className="flex justify-between">
-          <Button type="action">Cancel</Button>
-          <Button type="action">Done</Button>
+          <Button type="action" onClick={handleCancelModal}>
+            Cancel
+          </Button>
+          <Button type="action" onClick={handleDoneModal}>
+            Done
+          </Button>
         </div>
       </div>
     </div>
