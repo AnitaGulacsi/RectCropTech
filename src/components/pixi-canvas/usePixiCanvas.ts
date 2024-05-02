@@ -5,6 +5,7 @@ import {
   Graphics,
   Sprite,
   Texture,
+  Text,
 } from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 
@@ -12,6 +13,7 @@ export const usePixiCanvas = (imageSrc: string) => {
   const pixiContainer = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [userText, setUserText] = useState<string>("");
   const baseImageSize = 800;
 
   useEffect(() => {
@@ -118,6 +120,17 @@ export const usePixiCanvas = (imageSrc: string) => {
           const texture = Texture.from(canvas);
           const croppedImage = new Sprite(texture);
           container.addChild(croppedImage);
+
+          // Adding text
+          const text = new Text({
+            text: userText,
+          });
+          text.x = 10;
+          text.y = 10;
+          context.fillStyle = "red";
+          context.font = "bold 50px serif";
+          context.fillText(userText, 40, 40);
+
           uploadImage.visible = false;
           rectangle.visible = false;
 
@@ -130,7 +143,11 @@ export const usePixiCanvas = (imageSrc: string) => {
         app.destroy(true);
       };
     })();
-  }, [imageSrc]);
+  }, [imageSrc, userText]);
 
-  return { downloadUrl, pixiContainer };
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserText(event.target.value);
+  };
+
+  return { downloadUrl, pixiContainer, userText, handleTextChange };
 };

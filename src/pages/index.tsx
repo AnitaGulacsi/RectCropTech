@@ -43,7 +43,7 @@ export default function Home() {
               Select the desired area on the image! Draw a rectangle for
               cropping:
             </p>
-            <PixiCanvas imageSrc={imageDataUrl} />
+            <PixiCanvas imageSrc={imageDataUrl} userText={""} />
           </div>
         )}
       </div>
