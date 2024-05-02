@@ -1,5 +1,6 @@
 import { usePixiCanvas } from "./usePixiCanvas";
 import { useFileDownloader } from "./useFileDownloader";
+import { Modal } from "../modal/Modal";
 
 interface PixiCanvasProps {
   imageSrc: string;
@@ -25,15 +26,15 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
         Download Cropped Image
       </button>
 
-      <div>
+      <Modal>
         <input
           type="text"
           value={userText}
           onChange={handleTextChange}
           placeholder="Enter text here"
-          className="m-3 py-2 px-4 rounded border"
+          className="m-3 py-2 px-4 rounded border border-teal-500 bg-transparent focus:bg-transparent"
         />
-      </div>
+      </Modal>
 
       <div ref={pixiContainer}></div>
     </div>
