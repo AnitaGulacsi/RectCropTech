@@ -11,8 +11,14 @@ interface PixiCanvasProps {
 export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const { downloadUrl, pixiContainer, userText, handleTextChange } =
-    usePixiCanvas(imageSrc);
+  const {
+    downloadUrl,
+    pixiContainer,
+    userText,
+    color,
+    handleTextChange,
+    handleColorChange,
+  } = usePixiCanvas(imageSrc);
   const { handleDownload } = useFileDownloader(downloadUrl ?? "");
 
   const handleCancelModal = () => {
@@ -50,6 +56,12 @@ export const PixiCanvas: React.FC<PixiCanvasProps> = ({ imageSrc }) => {
             onChange={handleTextChange}
             placeholder="Enter text here"
             className="m-3 py-2 px-4 rounded border border-teal-500 bg-transparent focus:bg-transparent"
+          />
+          <input
+            type="color"
+            value={color}
+            onChange={handleColorChange}
+            className="m-3"
           />
         </Modal>
       )}

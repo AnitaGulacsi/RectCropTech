@@ -7,13 +7,14 @@ import {
   Texture,
   Text,
 } from "pixi.js";
-import { useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 
 export const usePixiCanvas = (imageSrc: string) => {
   const pixiContainer = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [userText, setUserText] = useState<string>("");
+  const [color, setColor] = useState("");
   const baseImageSize = 800;
 
   useEffect(() => {
@@ -45,7 +46,6 @@ export const usePixiCanvas = (imageSrc: string) => {
 
       const texture = await Assets.load(imageSrc);
       const uploadImage = new Sprite(texture);
-      container.addChild(uploadImage);
 
       if (
         uploadImage.width > baseImageSize &&
@@ -54,6 +54,8 @@ export const usePixiCanvas = (imageSrc: string) => {
         uploadImage.width = baseImageSize;
         uploadImage.height = baseImageSize;
       }
+
+      container.addChild(uploadImage);
 
       let drawing = false;
       let start = { x: 0, y: 0 };
@@ -127,7 +129,7 @@ export const usePixiCanvas = (imageSrc: string) => {
           });
           text.x = 10;
           text.y = 10;
-          context.fillStyle = "red";
+          context.fillStyle = color;
           context.font = "bold 50px serif";
           context.fillText(userText, 40, 40);
 
@@ -143,11 +145,24 @@ export const usePixiCanvas = (imageSrc: string) => {
         app.destroy(true);
       };
     })();
-  }, [imageSrc, userText]);
+  }, [color, imageSrc, userText]);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserText(event.target.value);
   };
 
-  return { downloadUrl, pixiContainer, userText, handleTextChange };
+  const handleColorChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setColor(event.target.value);
+  };
+
+  return {
+    downloadUrl,
+    pixiContainer,
+    userText,
+    color,
+    handleTextChange,
+    handleColorChange,
+  };
 };
